@@ -1,5 +1,8 @@
 package view;
 
+import business.ContactBusiness;
+import entity.ContactEntity;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,6 +16,8 @@ public class ContactForm  extends JFrame {
     private JButton buttonCancel;
     private JButton buttonSave;
 
+    private ContactBusiness mContactBusiness;
+
     public ContactForm(){
 
         setContentPane(rootPanel);
@@ -24,6 +29,8 @@ public class ContactForm  extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        mContactBusiness = new ContactBusiness();
+
         setListeners();
     }
 
@@ -31,6 +38,15 @@ public class ContactForm  extends JFrame {
         buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+
+               try {
+                   mContactBusiness.save(textFieldName.getText(), textFieldPhone.getText());
+
+                   new MainForm();
+                   dispose();
+               }catch (Exception e){
+                    JOptionPane.showMessageDialog(new JFrame(), e.getMessage());
+               }
 
             }
         });
